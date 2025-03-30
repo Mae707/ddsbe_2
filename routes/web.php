@@ -1,37 +1,21 @@
 <?php
-/** @var \Laravel\Lumen\Routing\Router $router */
-/*
-|---------------------------------------------------------------------
------
-| Application Routes
-|---------------------------------------------------------------------
------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
+
 $router->get('/', function () use ($router) {
-return $router->app->version();
+    return $router->app->version();
 });
-// unsecure routes
-$router->group(['prefix' => 'api'], function () use ($router) {
-$router->get('/users',['uses' => 'UserController@getUsers']);
 
+$router->get('/api/users', ['uses' => 'UserController@getUsers']);
 
-// more simple routes
-$router->get('/users',['uses' => 'UserController@getUsers']);
-$router->get('/users', 'UserController@index'); // get all users
+    $router->get('/api/users', 'UserController@index');//get all users records
+    $router->post('/api/users', 'UserController@addUser');//create new user record
+    $router->get('/api/users/{id}', 'UserController@show');//get user by id
+    $router->put('/api/users/{id}', 'UserController@update');//update user record
+    $router->patch('/api/users/{id}', 'UserController@update');//update user record
+    $router->delete('/api/users/{id}', 'UserController@delete');//delete record
 
-$router->post('/users', 'UserController@add'); // create new user
-
-$router->get('/users/{id}', 'UserController@show'); // get user by id
-$router->put('/users/{id}', 'UserController@update'); // update user
-
-$router->patch('/users/{id}', 'UserController@update'); // update user
-
-$router->delete('/users/{id}', 'UserController@delete'); // delete
-
-
-});
+    $router->get('/api/usersjob', 'UserJobController@index'); // Get all jobs
+    $router->get('/api/usersjob/{id}', 'UserJobController@show'); // Get job by ID
+    $router->get('/api/test', function () {
+        return response()->json(['status' => 'API is working']);
+    });
+    
